@@ -1912,6 +1912,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App"
 });
@@ -37307,7 +37310,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [_vm._v("\n  App.vue Component \n  "), _c("router-view")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37331,7 +37334,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [_vm._v("Home component")])
 }
 var staticRenderFns = []
 render._withStripped = true

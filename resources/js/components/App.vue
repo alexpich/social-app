@@ -1,5 +1,8 @@
 <template>
-  <div></div>
+  <div>
+    App.vue Component 
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
