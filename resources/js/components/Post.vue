@@ -11,12 +11,12 @@
         </div>
         <div class="ml-6">
           <!-- Placeholder data -->
-          <div class="text-sm font-bold">Alex An</div>
+          <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
           <div class="text-sm text-gray-600">10 Minutes</div>
         </div>
       </div>
       <div class="mt-4">
-        <p>This is my first post!</p>
+        <p>{{ post.data.attributes.body }}</p>
       </div>
     </div>
 
@@ -69,6 +69,7 @@
 
 <script>
 export default {
-  name: "Post"
+  name: "Post",
+  props: ["post"]
 };
 </script>
