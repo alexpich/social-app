@@ -12,7 +12,7 @@
         <div class="ml-6">
           <!-- Placeholder data -->
           <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
-          <div class="text-sm text-gray-600">10 Minutes</div>
+          <div class="text-sm text-gray-600">{{ post.data.attributes.posted_at}}</div>
         </div>
       </div>
       <div class="mt-4">
@@ -20,11 +20,11 @@
       </div>
     </div>
 
-    <div class="w-full">
+    <div class="w-full" v-if="post.data.attributes.image">
       <img
-        src="https://cdn.photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg"
-        alt="post image"
-        class="w-full"
+      :src="post.data.attributes.image"
+      alt="post image"
+      class="w-full"
       />
     </div>
 
