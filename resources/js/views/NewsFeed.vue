@@ -31,6 +31,9 @@ export default {
       })
       .catch(error => {
         console.log("Unable to fetch posts");
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 };
