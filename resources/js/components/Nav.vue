@@ -39,7 +39,10 @@
           />
         </svg>
       </router-link>
-      <router-link to="/" class="px-6 border-white h-full flex items-center">
+      <router-link
+        :to="'/users/' + user.data.user_id"
+        class="px-6 border-white h-full flex items-center"
+      >
         <img
           src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
           alt="person"
@@ -65,7 +68,24 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Nav",
+  data: () => {
+    return {
+      user: null
+    };
+  },
+  mounted() {
+    axios
+      .get("/api/auth-user")
+      .then(res => {
+        this.user = res.data;
+      })
+      .catch(error => {
+        console.log("Unable to fetch auth user.");
+      });
+  }
+};
 </script>
 
 <style>
