@@ -1,0 +1,72 @@
+<template>
+  <div class="flex flex-col items-center">
+    <div class="relative mb-10">
+      <div class="w-100 h-64 overflow-hidden z-10">
+        <img
+          src="https://cdn.photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg"
+          class="object-cover w-full"
+          alt="user background image"
+        />
+      </div>
+      <div class="absolute flex items-center bottom-0 left-0 -mb-8 ml-6 z-20">
+        <div class="w-32">
+          <img
+            src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+            alt="user profile image"
+            class="w-32 h-32 border-4 border-gray-200 rounded-full shadow-lg object-cover"
+          />
+        </div>
+        <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
+      </div>
+    </div>
+
+    <p v-if="postLoading">Loading posts...</p>
+    <Post v-for="post in posts.data" :post="post" :key="post.data.post_id" />
+
+    <p v-if="! postLoading && posts.data.length < 1">No posts found.</p>
+  </div>
+</template>
+
+<script>
+import Post from "../../components/Post";
+
+export default {
+  name: "Show",
+  components: {
+    Post
+  },
+  data: () => {
+    return {
+      user: null,
+      posts: null,
+      userLoading: true,
+      postLoading: true
+    };
+  },
+  mounted() {
+    axios
+      .get("/api/users/" + this.$route.params.userId)
+      .then(res => {
+        this.user = res.data;
+      })
+      .catch(error => {
+        console.log("Unable to fetch user from the server.");
+      })
+      .finally(() => {
+        this.userLoading = false;
+      });
+
+    axios
+      .get("/api/users/" + this.$route.params.userId + "/posts")
+      .then(res => {
+        this.posts = res.data;
+      })
+      .catch(error => {
+        console.log("Unable to fetch posts");
+      })
+      .finally(() => {
+        this.postLoading = false;
+      });
+  }
+};
+</script>

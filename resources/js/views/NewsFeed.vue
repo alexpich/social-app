@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col items-center py-4">
     <NewPost />
+
+    <p v-if="loading">Loading posts...</p>
     <Post v-for="post in posts.data" :post="post" :key="post.data.post_id" />
   </div>
 </template>
@@ -17,7 +19,8 @@ export default {
   },
   data: () => {
     return {
-      posts: []
+      posts: [],
+      loading: true
     };
   },
   mounted() {
