@@ -39,7 +39,10 @@
           />
         </svg>
       </router-link>
-      <router-link to="/" class="px-6 border-white h-full flex items-center">
+      <router-link
+        :to="'/users/' + authUser.data.user_id"
+        class="px-6 border-white h-full flex items-center"
+      >
         <img
           src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
           alt="person"
@@ -65,7 +68,16 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  name: "Nav",
+  computed: {
+    ...mapGetters({
+      authUser: "authUser"
+    })
+  }
+};
 </script>
 
 <style>
