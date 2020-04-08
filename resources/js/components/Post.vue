@@ -6,7 +6,7 @@
           <img
             src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
             alt="person"
-            class="w-8 h-8 object-cover rounded-full"
+            class="w-8 h-8 object-cover rounded-md"
           />
         </div>
         <div class="ml-6">
@@ -81,12 +81,15 @@
           type="text"
           name="comment"
           class="rounded-md focus:outline-none text-sm w-full pl-4 h-8 bg-gray-200 focus:outline-none"
+          placeholder="Add a comment..."
         />
-        <button
-          v-if="commentBody"
-          class="bg-gray-200 ml-2 px-3 py-1 rounded-md focus:outline-none"
-          @click="$store.dispatch('commentPost', { body: commentBody, postId: post.data.post_id, postKey: $vnode.key }); commentBody=''"
-        >Post</button>
+        <transition name="fade">
+          <button
+            v-if="commentBody"
+            class="bg-gray-200 ml-2 px-3 py-1 rounded-md focus:outline-none"
+            @click="$store.dispatch('commentPost', { body: commentBody, postId: post.data.post_id, postKey: $vnode.key }); commentBody=''"
+          >Post</button>
+        </transition>
       </div>
 
       <div
@@ -130,3 +133,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
