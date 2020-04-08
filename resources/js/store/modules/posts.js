@@ -1,15 +1,15 @@
 const state = {
-    newsPosts: null,
-    newsPostsStatus: null,
+    posts: null,
+    postsStatus: null,
     postMessage: ""
 };
 const getters = {
-    newsPosts: state => {
-        return state.newsPosts;
+    posts: state => {
+        return state.posts;
     },
     newsStatus: state => {
         return {
-            newsPostsStatus: state.newsPostsStatus
+            postsStatus: state.postsStatus
         };
     },
     postMessage: state => {
@@ -22,8 +22,20 @@ const actions = {
         axios
             .get("/api/posts")
             .then(res => {
-                commit("setPostsStatus", "success");
                 commit("setPosts", res.data);
+                commit("setPostsStatus", "success");
+            })
+            .catch(error => {
+                commit("setPostsStatus", "error");
+            });
+    },
+    fetchUserPosts({ commit, dispatch }, userId) {
+        commit("setPostsStatus", "loading");
+        axios
+            .get("/api/users/" + userId + "/posts")
+            .then(res => {
+                commit("setPosts", res.data);
+                commit("setPostsStatus", "success");
             })
             .catch(error => {
                 commit("setPostsStatus", "error");
@@ -67,22 +79,23 @@ const actions = {
 };
 const mutations = {
     setPosts(state, posts) {
-        state.newsPosts = posts;
+        state.posts = posts;
     },
     setPostsStatus(state, status) {
-        state.newsPostStatus = status;
+        state.poststatus = status;
     },
     updateMessage(state, message) {
         state.postMessage = message;
     },
     pushPost(state, post) {
-        state.newsPosts.data.unshift(post);
+        state.posts.data.unshift(post);
     },
     pushLikes(state, data) {
-        state.newsPosts.data[data.postKey].data.attributes.likes = data.likes;
+        state.posts.data[data.postKey].data.attributes.likes = data.likes;
     },
     pushComments(state, data) {
-        state.newsPosts.data[data.postKey].data.attributes.comments = data.comments;
+        state.posts.data[data.postKey].data.attributes.comments =
+            data.comments;
     }
 };
 
