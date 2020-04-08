@@ -6,17 +6,18 @@
           <img
             src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
             alt="person"
-            class="w-8 h-8 object-cover rounded-full"
+            class="w-8 h-8 object-cover rounded-md"
           />
         </div>
       </div>
-      <div class="flex-1 mx-4">
+      <div class="flex-1 flex mx-4">
         <input
           type="text"
           name="body"
           class="rounded-md focus:outline-none focus:shadow-outline text-sm w-full pl-4 h-8 bg-gray-200"
           placeholder="Add a post"
         />
+        <button class="bg-gray-200 ml-3 px-3 py-1 rounded-md">Post</button>
       </div>
       <div>
         <button class="flex justify-center items-center rounded-full w-10 h-10 bg-gray-200">

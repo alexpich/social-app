@@ -2093,6 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NewPost"
 });
@@ -2214,8 +2215,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_NewPost__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NewPost */ "./resources/js/components/NewPost.vue");
-/* harmony import */ var _components_Post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Post */ "./resources/js/components/Post.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_NewPost__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/NewPost */ "./resources/js/components/NewPost.vue");
+/* harmony import */ var _components_Post__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Post */ "./resources/js/components/Post.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2225,31 +2233,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NewsFeed",
   components: {
-    NewPost: _components_NewPost__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Post: _components_Post__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  data: function data() {
-    return {
-      posts: [],
-      loading: true
-    };
+    NewPost: _components_NewPost__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Post: _components_Post__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get("/api/posts").then(function (res) {
-      _this.posts = res.data;
-    })["catch"](function (error) {
-      console.log("Unable to fetch posts");
-    })["finally"](function () {
-      _this.loading = false;
-    });
-  }
+    this.$store.dispatch("fetchNewsPosts");
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    posts: "newsPosts",
+    newsStatus: "newsStatus"
+  }))
 });
 
 /***/ }),
@@ -38014,7 +38013,7 @@ var staticRenderFns = [
     return _c("div", [
       _c("div", { staticClass: "w-8" }, [
         _c("img", {
-          staticClass: "w-8 h-8 object-cover rounded-full",
+          staticClass: "w-8 h-8 object-cover rounded-md",
           attrs: {
             src:
               "https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4",
@@ -38028,12 +38027,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-1 mx-4" }, [
+    return _c("div", { staticClass: "flex-1 flex mx-4" }, [
       _c("input", {
         staticClass:
           "rounded-md focus:outline-none focus:shadow-outline text-sm w-full pl-4 h-8 bg-gray-200",
         attrs: { type: "text", name: "body", placeholder: "Add a post" }
-      })
+      }),
+      _vm._v(" "),
+      _c("button", { staticClass: "bg-gray-200 ml-3 px-3 py-1 rounded-md" }, [
+        _vm._v("Post")
+      ])
     ])
   }
 ]
@@ -38281,7 +38284,9 @@ var render = function() {
     [
       _c("NewPost"),
       _vm._v(" "),
-      _vm.loading ? _c("p", [_vm._v("Loading posts...")]) : _vm._e(),
+      _vm.newsStatus.postsStatus === "loading"
+        ? _c("p", [_vm._v("Loading posts...")])
+        : _vm._e(),
       _vm._v(" "),
       _vm._l(_vm.posts.data, function(post) {
         return _c("Post", { key: post.data.post_id, attrs: { post: post } })
@@ -55116,6 +55121,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
 /* harmony import */ var _modules_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/user */ "./resources/js/store/modules/user.js");
 /* harmony import */ var _modules_title__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/title */ "./resources/js/store/modules/title.js");
+/* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
+
 
 
 
@@ -55126,9 +55133,63 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   modules: {
     Profile: _modules_profile__WEBPACK_IMPORTED_MODULE_2__["default"],
     User: _modules_user__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Title: _modules_title__WEBPACK_IMPORTED_MODULE_4__["default"]
+    Title: _modules_title__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Posts: _modules_posts__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/posts.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/posts.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  newsPosts: null,
+  newsPostsStatus: null
+};
+var getters = {
+  newsPosts: function newsPosts(state) {
+    return state.newsPosts;
+  },
+  newsStatus: function newsStatus(state) {
+    return {
+      newsPostsStatus: state.newsPostsStatus
+    };
+  }
+};
+var actions = {
+  fetchNewsPosts: function fetchNewsPosts(_ref) {
+    var commit = _ref.commit,
+        state = _ref.state;
+    commit("setPostsStatus", "loading");
+    axios.get("/api/posts").then(function (res) {
+      commit("setPostsStatus", "success");
+      commit("setPosts", res.data);
+    })["catch"](function (error) {
+      commit("setPostsStatus", "error");
+    });
+  }
+};
+var mutations = {
+  setPosts: function setPosts(state, posts) {
+    state.newsPosts = posts;
+  },
+  setPostsStatus: function setPostsStatus(state, status) {
+    state.newsPostStatus = status;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
 
 /***/ }),
 
