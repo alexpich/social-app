@@ -18,6 +18,24 @@
         </div>
         <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
       </div>
+
+      <div class="absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20">
+        <button
+          v-if="friendButtonText && friendButtonText !== 'Accept'"
+          class="py-1 px-3 bg-gray-300 rounded"
+          @click="$store.dispatch('sendFriendRequest', $route.params.userId)"
+        >{{ friendButtonText }}</button>
+        <button
+          v-if="friendButtonText && friendButtonText === 'Accept'"
+          class="mr-2 py-1 px-3 bg-blue-300 rounded"
+          @click="$store.dispatch('acceptFriendRequest', $route.params.userId)"
+        >Accept</button>
+        <button
+          v-if="friendButtonText && friendButtonText === 'Accept'"
+          class="py-1 px-3 bg-gray-300 rounded"
+          @click="$store.dispatch('ignoreFriendRequest', $route.params.userId)"
+        >Ignore</button>
+      </div>
     </div>
 
     <p v-if="postLoading">Loading posts...</p>
@@ -29,6 +47,7 @@
 
 <script>
 import Post from "../../components/Post";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Show",
@@ -37,24 +56,12 @@ export default {
   },
   data: () => {
     return {
-      user: null,
       posts: null,
-      userLoading: true,
       postLoading: true
     };
   },
   mounted() {
-    axios
-      .get("/api/users/" + this.$route.params.userId)
-      .then(res => {
-        this.user = res.data;
-      })
-      .catch(error => {
-        console.log("Unable to fetch user from the server.");
-      })
-      .finally(() => {
-        this.userLoading = false;
-      });
+    this.$store.dispatch("fetchUser", this.$route.params.userId);
 
     axios
       .get("/api/users/" + this.$route.params.userId + "/posts")
@@ -67,6 +74,13 @@ export default {
       .finally(() => {
         this.postLoading = false;
       });
+  },
+
+  computed: {
+    ...mapGetters({
+      user: "user",
+      friendButtonText: "friendButtonText"
+    })
   }
 };
 </script>
