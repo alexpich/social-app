@@ -2111,9 +2111,6 @@ __webpack_require__.r(__webpack_exports__);
       get: function get() {
         return this.$store.getters.postMessage;
       },
-      // set(postMessage) {
-      //   this.$store.commit("updateMessage", postMessage);
-      // }
       set: lodash__WEBPACK_IMPORTED_MODULE_0___default.a.debounce(function (postMessage) {
         this.$store.commit("updateMessage", postMessage);
       }, 500)
@@ -2205,9 +2202,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Post",
-  props: ["post"]
+  props: ["post"],
+  data: function data() {
+    return {
+      comments: false,
+      commentBody: ""
+    };
+  }
 });
 
 /***/ }),
@@ -38833,7 +38883,18 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(1)
+          _c("div", [
+            _c("p", [
+              _vm._v(
+                "\n        " +
+                  _vm._s(_vm.post.data.attributes.comments.comment_count) +
+                  "\n        "
+              ),
+              _vm.post.data.attributes.comments.comment_count === 1
+                ? _c("span", [_vm._v("comment")])
+                : _c("span", [_vm._v("comments")])
+            ])
+          ])
         ]
       ),
       _vm._v(" "),
@@ -38888,7 +38949,12 @@ var render = function() {
             "button",
             {
               staticClass:
-                "flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full hover:bg-gray-200 focus:outline-none"
+                "flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full focus:outline-none",
+              on: {
+                click: function($event) {
+                  _vm.comments = !_vm.comments
+                }
+              }
             },
             [
               _c(
@@ -38914,7 +38980,111 @@ var render = function() {
             ]
           )
         ]
-      )
+      ),
+      _vm._v(" "),
+      _vm.comments
+        ? _c(
+            "div",
+            { staticClass: "border-t border-gray-400 p-4 pt-2" },
+            [
+              _c("div", { staticClass: "flex" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.commentBody,
+                      expression: "commentBody"
+                    }
+                  ],
+                  staticClass:
+                    "rounded-md focus:outline-none text-sm w-full pl-4 h-8 bg-gray-200 focus:outline-none",
+                  attrs: { type: "text", name: "comment" },
+                  domProps: { value: _vm.commentBody },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.commentBody = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.commentBody
+                  ? _c(
+                      "button",
+                      {
+                        staticClass:
+                          "bg-gray-200 ml-2 px-3 py-1 rounded-md focus:outline-none",
+                        on: {
+                          click: function($event) {
+                            _vm.$store.dispatch("commentPost", {
+                              body: _vm.commentBody,
+                              postId: _vm.post.data.post_id,
+                              postKey: _vm.$vnode.key
+                            })
+                            _vm.commentBody = ""
+                          }
+                        }
+                      },
+                      [_vm._v("Post")]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.post.data.attributes.comments.data, function(comment) {
+                return _c(
+                  "div",
+                  { key: comment.id, staticClass: "flex my-4 items-center" },
+                  [
+                    _vm._m(1, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "ml-4 flex-1" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bg-gray-200 rounded-md p-2 text-sm" },
+                        [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "font-bold text-blue-600",
+                              attrs: {
+                                href:
+                                  "/users/" +
+                                  comment.data.attributes.commented_by.data
+                                    .user_id
+                              }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  comment.data.attributes.commented_by.data
+                                    .attributes.name
+                                )
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "inline" }, [
+                            _vm._v(_vm._s(comment.data.attributes.body))
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-xs text-gray-700 pl-2" }, [
+                        _c("p", [
+                          _vm._v(_vm._s(comment.data.attributes.commented_at))
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              })
+            ],
+            2
+          )
+        : _vm._e()
     ]
   )
 }
@@ -38938,7 +39108,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("15 Comments")])])
+    return _c("div", { staticClass: "w-8" }, [
+      _c("img", {
+        staticClass: "w-8 h-8 object-cover rounded-md",
+        attrs: {
+          src:
+            "https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4",
+          alt: "person"
+        }
+      })
+    ])
   }
 ]
 render._withStripped = true
@@ -55944,6 +56123,20 @@ var actions = {
     })["catch"](function (error) {
       console.log(error);
     });
+  },
+  commentPost: function commentPost(_ref4, data) {
+    var commit = _ref4.commit,
+        state = _ref4.state;
+    axios.post("/api/posts/" + data.postId + "/comment", {
+      body: data.body
+    }).then(function (res) {
+      commit("pushComments", {
+        comments: res.data,
+        postKey: data.postKey
+      });
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 };
 var mutations = {
@@ -55961,6 +56154,9 @@ var mutations = {
   },
   pushLikes: function pushLikes(state, data) {
     state.newsPosts.data[data.postKey].data.attributes.likes = data.likes;
+  },
+  pushComments: function pushComments(state, data) {
+    state.newsPosts.data[data.postKey].data.attributes.comments = data.comments;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

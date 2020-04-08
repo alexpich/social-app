@@ -48,9 +48,6 @@ export default {
       get() {
         return this.$store.getters.postMessage;
       },
-      // set(postMessage) {
-      //   this.$store.commit("updateMessage", postMessage);
-      // }
       set: _.debounce(function(postMessage) {
         this.$store.commit("updateMessage", postMessage);
       }, 500)

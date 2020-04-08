@@ -10,7 +10,6 @@
           />
         </div>
         <div class="ml-6">
-          <!-- Placeholder data -->
           <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
           <div class="text-sm text-gray-600">{{ post.data.attributes.posted_at}}</div>
         </div>
@@ -40,7 +39,13 @@
         </p>
       </div>
       <div>
-        <p>15 Comments</p>
+        <p>
+          {{ post.data.attributes.comments.comment_count }}
+          <span
+            v-if="post.data.attributes.comments.comment_count === 1"
+          >comment</span>
+          <span v-else>comments</span>
+        </p>
       </div>
     </div>
 
@@ -58,7 +63,8 @@
         <p class="ml-2">Like</p>
       </button>
       <button
-        class="flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full hover:bg-gray-200 focus:outline-none"
+        class="flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full focus:outline-none"
+        @click="comments = !comments"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-5 h-5">
           <path
@@ -68,12 +74,59 @@
         <p class="ml-2">Comment</p>
       </button>
     </div>
+    <div v-if="comments" class="border-t border-gray-400 p-4 pt-2">
+      <div class="flex">
+        <input
+          v-model="commentBody"
+          type="text"
+          name="comment"
+          class="rounded-md focus:outline-none text-sm w-full pl-4 h-8 bg-gray-200 focus:outline-none"
+        />
+        <button
+          v-if="commentBody"
+          class="bg-gray-200 ml-2 px-3 py-1 rounded-md focus:outline-none"
+          @click="$store.dispatch('commentPost', { body: commentBody, postId: post.data.post_id, postKey: $vnode.key }); commentBody=''"
+        >Post</button>
+      </div>
+
+      <div
+        v-for="comment in post.data.attributes.comments.data"
+        :key="comment.id"
+        class="flex my-4 items-center"
+      >
+        <div class="w-8">
+          <img
+            src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+            alt="person"
+            class="w-8 h-8 object-cover rounded-md"
+          />
+        </div>
+        <div class="ml-4 flex-1">
+          <div class="bg-gray-200 rounded-md p-2 text-sm">
+            <a
+              class="font-bold text-blue-600"
+              :href="'/users/' + comment.data.attributes.commented_by.data.user_id"
+            >{{ comment.data.attributes.commented_by.data.attributes.name }}</a>
+            <p class="inline">{{ comment.data.attributes.body }}</p>
+          </div>
+          <div class="text-xs text-gray-700 pl-2">
+            <p>{{ comment.data.attributes.commented_at }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Post",
-  props: ["post"]
+  props: ["post"],
+  data: () => {
+    return {
+      comments: false,
+      commentBody: ""
+    };
+  }
 };
 </script>
