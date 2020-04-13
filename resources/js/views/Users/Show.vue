@@ -2,11 +2,7 @@
   <div class="flex flex-col items-center" v-if="status.user === 'success' && user">
     <div class="relative mb-10">
       <div class="w-100 h-64 overflow-hidden z-10">
-        <img
-          src="https://cdn.photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg"
-          class="object-cover w-full"
-          alt="user background image"
-        />
+        <UploadableImage image-width="1500" image-height="300" location="cover" />
       </div>
       <div class="absolute flex items-center bottom-0 left-0 -mb-8 ml-6 z-20">
         <div class="w-32">
@@ -46,12 +42,14 @@
 
 <script>
 import Post from "../../components/Post";
+import UploadableImage from "../../components/UploadableImage";
 import { mapGetters } from "vuex";
 
 export default {
   name: "Show",
   components: {
-    Post
+    Post,
+    UploadableImage
   },
   mounted() {
     this.$store.dispatch("fetchUser", this.$route.params.userId);
