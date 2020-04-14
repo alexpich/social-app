@@ -2062,6 +2062,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2104,9 +2111,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NewPost",
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
+    authUser: "authUser"
+  }), {
     postMessage: {
       get: function get() {
         return this.$store.getters.postMessage;
@@ -2115,7 +2125,7 @@ __webpack_require__.r(__webpack_exports__);
         this.$store.commit("updateMessage", postMessage);
       }, 500)
     }
-  }
+  })
 });
 
 /***/ }),
@@ -2297,6 +2307,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js");
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2304,19 +2321,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UploadableImage",
   props: ["userImage", "imageWidth", "imageHeight", "location", "classes", "alt"],
   data: function data() {
     return {
-      dropzone: null,
-      uploadedImage: null
+      dropzone: null
     };
   },
   mounted: function mounted() {
-    this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_0___default.a(this.$refs.userImage, this.settings);
+    if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
+      this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_0___default.a(this.$refs.userImage, this.settings);
+    }
   },
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
+    authUser: "authUser"
+  }), {
     settings: function settings() {
       var _this = this;
 
@@ -2330,17 +2351,18 @@ __webpack_require__.r(__webpack_exports__);
           location: this.location
         },
         headers: {
-          "X-CSRF-TOKEN": document.head.querySelector("meta[name=csrf-token").content
+          "X-CSRF-TOKEN": document.head.querySelector("meta[name=csrf-token]").content
         },
         success: function success(e, res) {
-          _this.uploadedImage = res;
+          _this.$store.dispatch("fetchAuthUser");
+
+          _this.$store.dispatch("fetchUser", _this.$route.params.userId);
+
+          _this.$store.dispatch("fetchUserPosts", _this.$route.params.userId);
         }
       };
-    },
-    imageObject: function imageObject() {
-      return this.uploadedImage || this.userImage;
     }
-  }
+  })
 });
 
 /***/ }),
@@ -7085,7 +7107,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".make-circle img {\n  border-radius: 9999px;\n}\r\n", ""]);
+exports.push([module.i, "/* .make-circle img {\r\n  border-radius: 9999px;\r\n} */\r\n", ""]);
 
 // exports
 
@@ -42618,10 +42640,11 @@ var render = function() {
             },
             [
               _c("img", {
-                staticClass: "w-8 h-8 object-cover rounded-full",
+                staticClass: "w-8 h-8 object-cover rounded-md",
                 attrs: {
                   src:
-                    "https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4",
+                    _vm.authUser.data.attributes.profile_image.data.attributes
+                      .path,
                   alt: "person"
                 }
               })
@@ -42703,7 +42726,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "bg-white rounded shadow-sm w-2/3 p-4" }, [
     _c("div", { staticClass: "flex justify-between items-center" }, [
-      _vm._m(0),
+      _c("div", [
+        _c("div", { staticClass: "w-8" }, [
+          _c("img", {
+            staticClass: "w-8 h-8 object-cover rounded-md",
+            attrs: {
+              src:
+                _vm.authUser.data.attributes.profile_image.data.attributes.path,
+              alt: "person"
+            }
+          })
+        ])
+      ]),
       _vm._v(" "),
       _c(
         "div",
@@ -42784,25 +42818,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "w-8" }, [
-        _c("img", {
-          staticClass: "w-8 h-8 object-cover rounded-md",
-          attrs: {
-            src:
-              "https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4",
-            alt: "person"
-          }
-        })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42830,7 +42846,17 @@ var render = function() {
     [
       _c("div", { staticClass: "flex flex-col p-4" }, [
         _c("div", { staticClass: "flex items-center" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "w-8" }, [
+            _c("img", {
+              staticClass: "w-8 h-8 object-cover rounded-md",
+              attrs: {
+                src:
+                  _vm.post.data.attributes.posted_by.data.attributes
+                    .profile_image.data.attributes.path,
+                alt: "person"
+              }
+            })
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "ml-6" }, [
             _c("div", { staticClass: "text-sm font-bold" }, [
@@ -43061,7 +43087,17 @@ var render = function() {
                   "div",
                   { key: comment.id, staticClass: "flex my-4 items-center" },
                   [
-                    _vm._m(1, true),
+                    _c("div", { staticClass: "w-8" }, [
+                      _c("img", {
+                        staticClass: "w-8 h-8 object-cover rounded-md",
+                        attrs: {
+                          src:
+                            comment.data.attributes.commented_by.data.attributes
+                              .profile_image.data.attributes.path,
+                          alt: "person"
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "ml-4 flex-1" }, [
                       _c(
@@ -43111,38 +43147,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-8" }, [
-      _c("img", {
-        staticClass: "w-8 h-8 object-cover rounded-md",
-        attrs: {
-          src:
-            "https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4",
-          alt: "person"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-8" }, [
-      _c("img", {
-        staticClass: "w-8 h-8 object-cover rounded-md",
-        attrs: {
-          src:
-            "https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4",
-          alt: "person"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -43207,7 +43212,7 @@ var render = function() {
     _c("img", {
       ref: "userImage",
       class: _vm.classes,
-      attrs: { src: _vm.imageObject.data.attributes.path, alt: _vm.alt }
+      attrs: { src: _vm.userImage.data.attributes.path, alt: _vm.alt }
     })
   ])
 }
@@ -43307,12 +43312,12 @@ var render = function() {
               { staticClass: "w-100 h-64 overflow-hidden z-10" },
               [
                 _c("UploadableImage", {
-                  staticClass: "object-cover w-full",
                   attrs: {
                     "image-width": "1200",
                     "image-height": "500",
                     location: "cover",
                     alt: "user background-cover image",
+                    classes: "object-cover w-full",
                     "user-image": _vm.user.data.attributes.cover_image
                   }
                 })
@@ -43332,13 +43337,13 @@ var render = function() {
                   { staticClass: "w-32" },
                   [
                     _c("UploadableImage", {
-                      staticClass:
-                        "object-cover w-32 h-32 border-4 border-gray-200 rounded-full shadow-lg make-circle",
                       attrs: {
                         "image-width": "750",
                         "image-height": "750",
                         location: "profile",
                         alt: "user profile image",
+                        classes:
+                          "object-cover w-32 h-32 border-4 border-gray-200 rounded-md shadow-lg",
                         "user-image": _vm.user.data.attributes.profile_image
                       }
                     })

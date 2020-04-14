@@ -7,7 +7,7 @@
           image-height="500"
           location="cover"
           alt="user background-cover image"
-          class="object-cover w-full"
+          classes="object-cover w-full"
           :user-image="user.data.attributes.cover_image"
         />
       </div>
@@ -18,7 +18,7 @@
             image-height="750"
             location="profile"
             alt="user profile image"
-            class="object-cover w-32 h-32 border-4 border-gray-200 rounded-full shadow-lg make-circle"
+            classes="object-cover w-32 h-32 border-4 border-gray-200 rounded-md shadow-lg"
             :user-image="user.data.attributes.profile_image"
           />
         </div>
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style>
-.make-circle img {
+/* .make-circle img {
   border-radius: 9999px;
-}
+} */
 </style>
