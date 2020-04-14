@@ -47,14 +47,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserImage::class)
             ->orderByDesc('id')
-            ->where('location', 'cover');
+            ->where('location', 'cover')
+            ->withDefault(function ($userImage) {
+                $userImage->path = 'storage/user-images/cover-default-image.png';
+            });
     }
 
     public function profileImage()
     {
         return $this->hasOne(UserImage::class)
             ->orderByDesc('id')
-            ->where('location', 'profile');
+            ->where('location', 'profile')
+            ->withDefault(function ($userImage) {
+                $userImage->path = 'storage/user-images/profile-default-image.svg';
+            });
     }
 
     public function friends()
