@@ -5,13 +5,13 @@
         <div class="w-8">
           <img
             :src="post.data.attributes.posted_by.data.attributes.profile_image.data.attributes.path"
-            alt="person"
+            alt="profile image"
             class="w-8 h-8 object-cover rounded-md"
           />
         </div>
         <div class="ml-6">
           <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
-          <div class="text-sm text-gray-600">{{ post.data.attributes.posted_at}}</div>
+          <div class="text-sm text-gray-600">{{ post.data.attributes.posted_at }}</div>
         </div>
       </div>
       <div class="mt-4">
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="w-full" v-if="post.data.attributes.image">
+    <div class="w-full" v-if="post.data.attributes.image.length">
       <img :src="post.data.attributes.image" alt="post image" class="w-full" />
     </div>
 
@@ -80,7 +80,7 @@
           v-model="commentBody"
           type="text"
           name="comment"
-          class="rounded-md focus:outline-none text-sm w-full pl-4 h-8 bg-gray-200 focus:outline-none"
+          class="rounded-md focus:outline-none text-sm w-full pl-4 h-8 mt-2 bg-gray-200 focus:outline-none"
           placeholder="Add a comment..."
         />
         <transition name="fade">
