@@ -1,11 +1,6 @@
 <template>
   <div>
-    <img
-      src="https://cdn.photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg"
-      ref="userImage"
-      class="object-cover w-full"
-      alt="user background image"
-    />
+    <img :src="imageObject.data.attributes.path" :alt="alt" ref="userImage" :class="classes" />
   </div>
 </template>
 
@@ -14,10 +9,18 @@ import Dropzone from "dropzone";
 
 export default {
   name: "UploadableImage",
-  props: ["imageWidth", "imageHeight", "location"],
+  props: [
+    "userImage",
+    "imageWidth",
+    "imageHeight",
+    "location",
+    "classes",
+    "alt"
+  ],
   data: () => {
     return {
-      dropzone: null
+      dropzone: null,
+      uploadedImage: null
     };
   },
   mounted() {
@@ -39,9 +42,12 @@ export default {
             .content
         },
         success: (e, res) => {
-          alert("Image uploaded successfully.");
+          this.uploadedImage = res;
         }
       };
+    },
+    imageObject() {
+      return this.uploadedImage || this.userImage;
     }
   }
 };

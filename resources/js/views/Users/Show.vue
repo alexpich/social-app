@@ -2,14 +2,24 @@
   <div class="flex flex-col items-center" v-if="status.user === 'success' && user">
     <div class="relative mb-10">
       <div class="w-100 h-64 overflow-hidden z-10">
-        <UploadableImage image-width="1500" image-height="300" location="cover" />
+        <UploadableImage
+          image-width="1500"
+          image-height="300"
+          location="cover"
+          alt="user background-cover image"
+          class="object-cover w-full"
+          :user-image="user.data.attributes.cover_image"
+        />
       </div>
       <div class="absolute flex items-center bottom-0 left-0 -mb-8 ml-6 z-20">
         <div class="w-32">
-          <img
-            src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+          <UploadableImage
+            image-width="1500"
+            image-height="300"
+            location="profile"
             alt="user profile image"
             class="w-32 h-32 border-4 border-gray-200 rounded-full shadow-lg object-cover"
+            :user-image="user.data.attributes.profile_image"
           />
         </div>
         <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
