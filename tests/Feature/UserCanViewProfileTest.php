@@ -55,8 +55,8 @@ class UserCanViewProfileTest extends TestCase
                             'type' => 'posts',
                             'post_id' => $post->id,
                             'attributes' => [
-                                'body' => $post->first()->body,
-                                'image' => $post->first()->image,
+                                'body' => $post->body,
+                                'image' => url($post->image),
                                 'posted_at' => $post->first()->created_at->diffForHumans(),
                                 'posted_by' => [
                                     'data' => [
