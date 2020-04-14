@@ -44,9 +44,9 @@
         class="px-6 border-white h-full flex items-center"
       >
         <img
-          src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+          :src="authUser.data.attributes.profile_image.data.attributes.path"
           alt="person"
-          class="w-8 h-8 object-cover rounded-full"
+          class="w-8 h-8 object-cover rounded-md"
         />
       </router-link>
       <router-link to="/" class="px-6 border-white h-full flex items-center">

@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <div class="w-8">
           <img
-            src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+            :src="post.data.attributes.posted_by.data.attributes.profile_image.data.attributes.path"
             alt="person"
             class="w-8 h-8 object-cover rounded-md"
           />
@@ -99,7 +99,7 @@
       >
         <div class="w-8">
           <img
-            src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+            :src="comment.data.attributes.commented_by.data.attributes.profile_image.data.attributes.path"
             alt="person"
             class="w-8 h-8 object-cover rounded-md"
           />

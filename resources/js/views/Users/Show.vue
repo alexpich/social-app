@@ -2,18 +2,24 @@
   <div class="flex flex-col items-center" v-if="status.user === 'success' && user">
     <div class="relative mb-10">
       <div class="w-100 h-64 overflow-hidden z-10">
-        <img
-          src="https://cdn.photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg"
-          class="object-cover w-full"
-          alt="user background image"
+        <UploadableImage
+          image-width="1200"
+          image-height="500"
+          location="cover"
+          alt="user background-cover image"
+          classes="object-cover w-full"
+          :user-image="user.data.attributes.cover_image"
         />
       </div>
       <div class="absolute flex items-center bottom-0 left-0 -mb-8 ml-6 z-20">
         <div class="w-32">
-          <img
-            src="https://avatars1.githubusercontent.com/u/34833028?s=460&u=50ce853588a02653cc889335df998ce0d6ace7d6&v=4"
+          <UploadableImage
+            image-width="750"
+            image-height="750"
+            location="profile"
             alt="user profile image"
-            class="w-32 h-32 border-4 border-gray-200 rounded-full shadow-lg object-cover"
+            classes="object-cover w-32 h-32 border-4 border-gray-200 rounded-md shadow-lg"
+            :user-image="user.data.attributes.profile_image"
           />
         </div>
         <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
@@ -46,12 +52,14 @@
 
 <script>
 import Post from "../../components/Post";
+import UploadableImage from "../../components/UploadableImage";
 import { mapGetters } from "vuex";
 
 export default {
   name: "Show",
   components: {
-    Post
+    Post,
+    UploadableImage
   },
   mounted() {
     this.$store.dispatch("fetchUser", this.$route.params.userId);
@@ -68,3 +76,9 @@ export default {
   }
 };
 </script>
+
+<style>
+/* .make-circle img {
+  border-radius: 9999px;
+} */
+</style>
