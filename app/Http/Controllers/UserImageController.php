@@ -24,7 +24,6 @@ class UserImageController extends Controller
             'height' => $data['height'],
             'location' => $data['location'],
         ]);
-        
         return new UserImageResource($userImage);
     }
 }
