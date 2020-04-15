@@ -47,6 +47,7 @@ const actions = {
             .post("/api/posts", { body: state.postMessage })
             .then(res => {
                 commit("pushPost", res.data);
+                commit("setPostsStatus", "success");
                 commit("updateMessage", "");
             })
             .catch(error => {
@@ -82,7 +83,7 @@ const mutations = {
         state.posts = posts;
     },
     setPostsStatus(state, status) {
-        state.poststatus = status;
+        state.postStatus = status;
     },
     updateMessage(state, message) {
         state.postMessage = message;
@@ -94,8 +95,7 @@ const mutations = {
         state.posts.data[data.postKey].data.attributes.likes = data.likes;
     },
     pushComments(state, data) {
-        state.posts.data[data.postKey].data.attributes.comments =
-            data.comments;
+        state.posts.data[data.postKey].data.attributes.comments = data.comments;
     }
 };
 
